@@ -33,6 +33,15 @@ const FILTERS: { key: Filter; label: string }[] = [
   { key: "completed", label: "Completed" },
 ];
 
+const DOT_COLORS = [
+  "bg-violet-500",
+  "bg-fuchsia-500",
+  "bg-cyan-500",
+  "bg-emerald-500",
+  "bg-amber-500",
+  "bg-rose-500",
+];
+
 export function TodoApp() {
   const { todos, hydrated, addTodo, toggleTodo, editTodo, deleteTodo, clearCompleted } =
     useTodos();
@@ -80,7 +89,7 @@ export function TodoApp() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-accent/40 px-4 py-10 sm:py-16">
+    <div className="min-h-screen bg-gradient-to-br from-violet-200 via-rose-100 to-cyan-200 px-4 py-10 sm:py-16 dark:from-slate-950 dark:via-violet-950/50 dark:to-slate-900">
       <div className="mx-auto w-full max-w-xl">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -181,11 +190,18 @@ export function TodoApp() {
               </div>
             ) : (
               <ul className="divide-y">
-                {filtered.map((todo) => (
+                {filtered.map((todo, idx) => (
                   <li
                     key={todo.id}
                     className="group flex items-center gap-3 py-2.5"
                   >
+                    <span
+                      className={cn(
+                        "h-2 w-2 shrink-0 rounded-full",
+                        DOT_COLORS[idx % DOT_COLORS.length],
+                      )}
+                      aria-hidden="true"
+                    />
                     <Checkbox
                       checked={todo.completed}
                       onCheckedChange={() => toggleTodo(todo.id)}
